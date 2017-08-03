@@ -74,7 +74,7 @@ app.get('/', function (req, res) {
     col.count(function(err, count){
       col1.find(query).toArray(function(err, result) {
         console.log(result);
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails ,usersObj: usersObj});
+      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails ,usersObj: result});
     });
     });
   } else {
