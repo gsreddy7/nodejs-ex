@@ -4,7 +4,7 @@ var express = require('express'),
     app     = express(),
     eps     = require('ejs'),
     morgan  = require('morgan');
-    
+
 Object.assign=require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
@@ -37,6 +37,8 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 var db = null,
     dbDetails = new Object();
 
+    var usersObj = new Object();
+
 var initDb = function(callback) {
   if (mongoURL == null) return;
 
@@ -66,10 +68,13 @@ app.get('/', function (req, res) {
   }
   if (db) {
     var col = db.collection('counts');
+    var col1 = db.collection('users');
     // Create a document with request IP and current time of request
     col.insert({ip: req.ip, date: Date.now()});
     col.count(function(err, count){
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
+      col1.find(query).toArray(function(err, result) {
+      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails ,usersObj: usersObj});
+    });
     });
   } else {
     res.render('index.html', { pageCountMessage : null});
