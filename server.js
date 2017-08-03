@@ -73,6 +73,7 @@ app.get('/', function (req, res) {
     col.insert({ip: req.ip, date: Date.now()});
     col.count(function(err, count){
       col1.find(query).toArray(function(err, result) {
+        console.log(result);
       res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails ,usersObj: usersObj});
     });
     });
